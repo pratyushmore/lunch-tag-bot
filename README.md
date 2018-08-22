@@ -1,6 +1,6 @@
 # Lunch Tag Bot
 
-Often, as organizations grow, it can be difficult to meet different kinds of people. Lunch Tag Bot aims to address that by randomly pairing interested individuals to get lunch together, and thus get to know each other.
+Often, as organizations grow, it can be difficult to meet different kinds of people. Lunch Tag Bot aims to address that by randomly pairing interested individuals to have lunch together, and thus get to know each other.
 
 This project has been set up to enable easy modification and integration into any workplace or organization. It will first support UI integration with slack only. In the future, though, this can be extended to many other organizational chat/communication systems.
 
