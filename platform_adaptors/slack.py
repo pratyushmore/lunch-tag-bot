@@ -6,9 +6,18 @@ import settings
 
 BUTTON_CLICK_IDENTIFIER = "interactive_message"
 
+RESPONSE_MESSAGE = ""
+
 class SlackAdaptor(object):
 	def __init__(self):
 		self.sc = SlackClient(settings.SLACK_API_TOKEN)
+
+	def should_respond(self, request):
+		if request['type'] == BUTTON_CLICK_IDENTIFIER:
+			return True
+		if "bot_id" in request['event']:
+			return False
+		return True
 
 	def parse_request(self, request):
 		if request['type'] == BUTTON_CLICK_IDENTIFIER:
@@ -71,3 +80,4 @@ class SlackAdaptor(object):
 			return full_message
 		elif '@' in message_parts[0]:
 			return ' '.join(message_parts[1:])
+		else return full_message
