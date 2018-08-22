@@ -1,7 +1,9 @@
 
 def match(messaging_adaptor, user, channel, to_ignore):
-	matched_user, matched_user_channel = "TODO", "TODO"
-	messaging_adaptor.send_message(user, "You have been matched with" + matched_user + " for Lunch Tag. Please schedule lunch with them,"
-									+ "and once you have met, message me back saying `complete`!", channel)
-	messaging_adaptor.send_message(matched_user, "You have been matched with" + matched_user + " for Lunch Tag. Please schedule lunch with them,"
-									+ "and once you have met, message me back saying `complete`!", matched_user_channel)
+	matched_user = "TODO"
+	name = "lunchtag-{}-{}".format(user.lower(), matched_user.lower())
+	message = "Hello <@{}> and <@{}>. You've been matched for lunch tag! {}".format(
+		user,
+		matched_user,
+		"Please schedule lunch, and once you've met, message me on the app saying `complete`.")
+	messaging_adaptor.create_private_group_with_message([user, matched_user], name, message)

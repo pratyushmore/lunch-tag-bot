@@ -23,19 +23,19 @@ class SlackAdaptor(object):
 			command = self.remove_botname_from_message(full_message)
 		return user, command, other_text, channel
 
-	def send_message(self, user, message, channel):
-		sc.api_call(
+	def send_message(self, channel, message):
+		self.sc.api_call(
 			"chat.postMessage",
 			channel=channel,
 			text=message
 		)
 		print message
 
-	def send_message_with_buttons(self, user, message, button_use, labels, values):
+	def send_message_with_buttons(self, channel, message, button_commands, labels, values):
 		actions = []
-		for label, value in zip(labels, values):
+		for command, label, value in zip(commands, labels, values):
 			action = {
-				"name": button_use,
+				"name": command,
 				"text": label,
 				"type": "button",
 				"value": value
@@ -48,13 +48,24 @@ class SlackAdaptor(object):
 				"actions": actions
 			}
 		]
-		sc.api_call(
+		self.sc.api_call(
 			"chat.postMessage",
 			channel=channel,
 			text=message,
 			attachments=attachments
 		)
 		print message, attachments
+
+	def create_private_group_with_message(self, users, name, message):
+		resp = self.sc.api_call(
+			"conversations.create",
+			name=name,
+			is_private=True
+			user_ids=users
+		)
+		if "ok" in resp and resp["ok"]:
+			self.send_message(resp["channel"]["id"], message)
+		print users, name, message
 
 	def remove_botname_from_message(self, full_message):
 		message_parts = full_message.split()
