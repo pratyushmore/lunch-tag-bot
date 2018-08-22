@@ -1,7 +1,7 @@
 
 def match(messaging_adaptor, user, channel, to_ignore):
 	matched_user = "TODO"
-	name = "lunchtag-{}-{}".format(user.lower(), matched_user.lower())
+	name = "lt-{}-{}".format(user.lower()[:4], matched_user.lower()[:4])
 	message = "Hello <@{}> and <@{}>. You've been matched for lunch tag! {}".format(
 		user,
 		matched_user,

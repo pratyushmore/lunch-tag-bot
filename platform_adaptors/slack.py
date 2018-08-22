@@ -29,9 +29,8 @@ class SlackAdaptor(object):
 			channel=channel,
 			text=message
 		)
-		print message
 
-	def send_message_with_buttons(self, channel, message, button_commands, labels, values):
+	def send_message_with_buttons(self, channel, message, fail_message, commands, labels, values):
 		actions = []
 		for command, label, value in zip(commands, labels, values):
 			action = {
@@ -43,7 +42,7 @@ class SlackAdaptor(object):
 			actions.append(action)
 		attachments =[
 			{
-				"fallback": "You were unable to choose a location."
+				"fallback": fail_message,
 				"callback_id": "random-unused",
 				"actions": actions
 			}
@@ -54,19 +53,18 @@ class SlackAdaptor(object):
 			text=message,
 			attachments=attachments
 		)
-		print message, attachments
 
 	def create_private_group_with_message(self, users, name, message):
 		resp = self.sc.api_call(
 			"conversations.create",
 			name=name,
-			is_private=True
-			user_ids=users
+			is_private=True,
+			user_ids=",".join(users)
 		)
 		if "ok" in resp and resp["ok"]:
 			self.send_message(resp["channel"]["id"], message)
-		print users, name, message
 
+	# This does not need to be implemented by another adaptor. It is a helper function
 	def remove_botname_from_message(self, full_message):
 		message_parts = full_message.split()
 		if len(message_parts) == 1:
