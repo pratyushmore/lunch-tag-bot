@@ -24,10 +24,37 @@ class SlackAdaptor(object):
 		return user, command, other_text, channel
 
 	def send_message(self, user, message, channel):
+		sc.api_call(
+			"chat.postMessage",
+			channel=channel,
+			text=message
+		)
 		print message
 
 	def send_message_with_buttons(self, user, message, button_use, labels, values):
-		pass
+		actions = []
+		for label, value in zip(labels, values):
+			action = {
+				"name": button_use,
+				"text": label,
+				"type": "button",
+				"value": value
+			}
+			actions.append(action)
+		attachments =[
+			{
+				"fallback": "You were unable to choose a location."
+				"callback_id": "random-unused",
+				"actions": actions
+			}
+		]
+		sc.api_call(
+			"chat.postMessage",
+			channel=channel,
+			text=message,
+			attachments=attachments
+		)
+		print message, attachments
 
 	def remove_botname_from_message(self, full_message):
 		message_parts = full_message.split()
