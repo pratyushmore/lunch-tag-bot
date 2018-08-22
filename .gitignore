@@ -8,6 +8,10 @@
 # git has its own built in compression methods
 *.zip
 
+# Generated Builder #
+#####################
+build.sh
+
 # Logs and databases #
 ######################
 *.log

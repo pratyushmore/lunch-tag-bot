@@ -1,0 +1,16 @@
+
+if [ -z "$LTB_VIRTUAL_ENV_DIRECTORY"]; then
+  echo "Error: LTB_VIRTUAL_ENV_DIRECTORY is not set" >&2
+  exit 1
+fi
+rm -rf lunchtagbot
+rm -rf build.zip
+mkdir -p lunchtagbot
+mkdir -p
+rsync -avzh ./ lunchtagbot --exclude '***.pyc' --exclude 'lunchtagbot'
+rm -f lunchtagbot/requirements.txt
+rm -f lunchtagbot/build.sh
+rm -f lunchtagbot/build_common.txt
+rsync -avzh $LTB_VIRTUAL_ENV_DIRECTORY/lib/python2.7/site-packages/ lunchtagbot
+zip -r build.zip lunchtagbot/
+rm -rf lunchtagbot
