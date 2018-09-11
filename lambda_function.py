@@ -7,10 +7,10 @@ from platform_adaptors.factory import get_adaptor
 def lambda_handler(event, context):
 	print event
 	messaging_adaptor = get_adaptor(settings.MESSAGING_PLATFORM)
-	req_body = json.loads(event["body"])
-	if not message_adaptor.should_respond(req_body)
-	user, command, other_text, channel = messaging_adaptor.parse_request(req_body)
-	route_request(messaging_adaptor, user, command, other_text, channel)
+	req_body = messaging_adaptor.to_dict(event["body"])
+	if messaging_adaptor.should_respond(req_body):
+		user, command, other_text, channel = messaging_adaptor.parse_request(req_body)
+		route_request(messaging_adaptor, user, command, other_text, channel)
 	return create_lambda_proxy_response(False, 200, {}, {})
 
 def route_request(messaging_adaptor, user, command, other_text, channel):

@@ -3,14 +3,20 @@ sys.path.append("../")
 
 from slackclient import SlackClient
 import settings
+from urlparse import parse_qs
+import json
 
 BUTTON_CLICK_IDENTIFIER = "interactive_message"
-
-RESPONSE_MESSAGE = ""
 
 class SlackAdaptor(object):
 	def __init__(self):
 		self.sc = SlackClient(settings.SLACK_API_TOKEN)
+
+	def to_dict(self, req_body_string):
+		try:
+			return json.loads(req_body_string)
+		except ValueError:
+			return json.loads(parse_qs(req_body_string)['payload'][0])
 
 	def should_respond(self, request):
 		if request['type'] == BUTTON_CLICK_IDENTIFIER:
@@ -80,4 +86,5 @@ class SlackAdaptor(object):
 			return full_message
 		elif '@' in message_parts[0]:
 			return ' '.join(message_parts[1:])
-		else return full_message
+		else:
+			 return full_message
