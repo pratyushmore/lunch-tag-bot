@@ -1,7 +1,8 @@
+import random
 
 def match(messaging_adaptor, user, channel, to_ignore):
-	matched_user = "TODO"
-	name = "lt-{}-{}".format(user.lower()[:4], matched_user.lower()[:4])
+	matched_user = user
+	name = "lt-{}-{}-{}".format(user.lower()[:4], matched_user.lower()[:4], random.randint(0, 999))
 	message = "Hello <@{}> and <@{}>. You've been matched for lunch tag! {}".format(
 		user,
 		matched_user,
